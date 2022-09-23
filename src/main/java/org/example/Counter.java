@@ -11,20 +11,22 @@ import java.util.Scanner;
 
 public class Counter {
     public static void main(String[] args) throws IOException {
-        Scanner myReader = new Scanner(System.in);
-        System.out.println("Enter filename: ");
+        count(args[0]);
+    }
+
+    public static String count(String filename) throws IOException {
         Map<String,Integer> counterWords = new HashMap<>();
+        Integer countWord = 0;
         try {
-            File myObj = new File("../../../Files/" + myReader.nextLine());
+            File myObj = new File(filename);
             FileReader fr=new FileReader(myObj);
-            BufferedReader br=new BufferedReader(fr);  //creates a buffering character input stream  
-            StringBuffer sb=new StringBuffer();    //constructs a string buffer with no characters  
+            BufferedReader br=new BufferedReader(fr);  //creates a buffering character input stream
+            StringBuffer sb=new StringBuffer();    //constructs a string buffer with no characters
             String line;
-            Integer count = 0;
             while ((line = br.readLine()) != null) { // count words
                 line = line.replaceAll("\\s", " ");
                 if (line.isEmpty()) continue;
-                else count += line.split(" ").length;
+                else countWord += line.split(" ").length;
                 for (int i = 0; i < line.split(" ").length; i++) {
                     String temp = line.split(" ")[i].replaceAll("\\W", "");
                     temp = temp.toLowerCase();
@@ -33,7 +35,6 @@ public class Counter {
                 }
             }
             fr.close();
-            System.out.println("Words in file: " + count + "\n\n");
             for (Map.Entry<String,Integer> item : counterWords.entrySet())
                 System.out.println("Word = " + item.getKey() +
                         " Appears = " + item.getValue() + "\n");
@@ -41,6 +42,7 @@ public class Counter {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        myReader.close();
+        System.out.println("Words in file: " + countWord + "\n\n");
+        return "Words in file: " + countWord + "\n\n";
     }
 }
